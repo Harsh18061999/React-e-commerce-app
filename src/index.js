@@ -1,13 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import App from './App';
+import { Provider } from 'react-redux';
 import reportWebVitals from './reportWebVitals';
-
+import { BrowserRouter } from 'react-router-dom';
+import { Store,PersistStoreData } from './store/store';
+import { PersistGate } from 'redux-persist/es/integration/react';
+import {Elements} from "@stripe/react-stripe-js";
+import { stripePromise } from './route/utils/stripe/stripe.utils';
 const root = ReactDOM.createRoot(document.getElementById('root'));
+// console.log("app register")
 root.render(
   <React.StrictMode>
-    <App />
+    <Provider store={Store}>
+      <PersistGate persistor={PersistStoreData}>
+        <BrowserRouter>
+          <Elements stripe={stripePromise}>
+                <App />
+          </Elements>
+        </BrowserRouter>
+      </PersistGate>
+    </Provider>
   </React.StrictMode>
 );
 
